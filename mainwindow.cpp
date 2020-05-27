@@ -131,7 +131,7 @@ void MainWindow::on_batchbutton_clicked()
         fileslist.append("movie.webm");
   //  fileslist.append("blank");
 
-
+//https://forum.qt.io/topic/28723/solved-constructing-c-string-array-const-char-from-qstringlist
     int size = fileslist.size();
     const char *argv1[size];
     int i=0;
