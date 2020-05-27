@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "img2webp.h"
-
+#include <QDebug>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -56,8 +56,13 @@ void MainWindow::on_pushButton_clicked()
 
     //ui->XZINGformat->currentText().toLocal8Bit().data(),fileName.toLocal8Bit().data()
 
-    const char *argv1[]={"appname","-loop","2","in0.png","-lossy","in1.jpg","null"};
+    qDebug() << "testing";
 
+   // const char *argv1[]={"appname","-d","800","-loop","2","in0.bmp","-lossy","in1.bmp","-o","test.webp","null"};
+
+    const char *argv1[]={"appname","-d","800","-loop","2","in0.jpg","-lossy","in1.jpg","-o","test.webp","null"};
+
+// const char *argv1[]={"appname","in1.bmp","in0.bmp","null"};
      int argc1 = sizeof(argv1) / sizeof(char*) - 1;
 
      img2webp(argc1,argv1);

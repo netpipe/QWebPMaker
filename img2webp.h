@@ -14,7 +14,7 @@
 //     img2webp -o out.webp -q 40 -mixed -duration 40 input??.png
 //
 // Author: skal@google.com (Pascal Massimino)
-
+#include <QDebug>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -154,10 +154,11 @@ int img2webp(int argc, const char* argv[]) {
       !WebPConfigInit(&config) ||
       !WebPPictureInit(&pic)) {
     fprintf(stderr, "Library version mismatch!\n");
+    qDebug() << "Library version mismatch!\n";
     ok = 0;
     goto End;
   }
-
+qDebug() << "parsing options";
   // 1st pass of option parsing
   for (c = 0; ok && c < argc; ++c) {
     if (argv[c][0] == '-') {
@@ -195,6 +196,7 @@ int img2webp(int argc, const char* argv[]) {
                (enc_version >> 16) & 0xff, (enc_version >> 8) & 0xff,
                enc_version & 0xff, (mux_version >> 16) & 0xff,
                (mux_version >> 8) & 0xff, mux_version & 0xff);
+         qDebug() << "webp encoder version";
         goto End;
       } else {
         continue;
@@ -206,8 +208,20 @@ int img2webp(int argc, const char* argv[]) {
       have_input |= 1;
     }
   }
+
+
+//  loop_count = 2;
+//  anim_config.allow_mixed = 1;
+//  config.lossless = 0;
+
+
+//   output = "test.webp";
+
+
+
   if (!have_input) {
     fprintf(stderr, "No input file(s) for generating animation!\n");
+          qDebug() << "No input file(s) for generating animation!\n";
     goto End;
   }
 
@@ -230,10 +244,12 @@ int img2webp(int argc, const char* argv[]) {
         duration = ExUtilGetInt(argv[++c], 0, &parse_error);
         if (duration <= 0) {
           fprintf(stderr, "Invalid negative duration (%d)\n", duration);
+                     qDebug() << "Invalid negative duration";
           parse_error = 1;
         }
       } else {
         parse_error = 1;   // shouldn't be here.
+                   qDebug() << "unknown option";
         fprintf(stderr, "Unknown option [%s]\n", argv[c]);
       }
       ok = !parse_error;
@@ -309,12 +325,15 @@ int img2webp(int argc, const char* argv[]) {
     if (output != NULL) {
       ok = ImgIoUtilWriteFile(output, webp_data.bytes, webp_data.size);
       if (ok) WFPRINTF(stderr, "output file: %s     ", (const W_CHAR*)output);
+            qDebug() << "output file wrote";
     } else {
+              qDebug() << "no output file specified";
       fprintf(stderr, "[no output file specified]   ");
     }
   }
 
   if (ok) {
+      qDebug() << "frames wrote";
     fprintf(stderr, "[%d frames, %u bytes].\n",
             pic_num, (unsigned int)webp_data.size);
   }
