@@ -2,6 +2,13 @@
 #include "ui_mainwindow.h"
 #include "img2webp.h"
 #include <QDebug>
+#include <QFileDialog>
+#include <QDirIterator>
+#include <QFile>
+#include <QPixmap>
+#include <QGraphicsScene>
+#include <QGraphicsView>
+#include <QFileInfo>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -55,15 +62,51 @@ void MainWindow::on_pushButton_clicked()
     //\n -d 80 in2.tiff -o out.webp\n");
 
     //ui->XZINGformat->currentText().toLocal8Bit().data(),fileName.toLocal8Bit().data()
+  QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
+
 
     qDebug() << "testing";
 
    // const char *argv1[]={"appname","-d","800","-loop","2","in0.bmp","-lossy","in1.bmp","-o","test.webp","null"};
 
-    const char *argv1[]={"appname","-d","800","-loop","2","in0.jpg","-lossy","in1.jpg","-o","test.webp","null"};
+  //  QStringList file.
+//QString test = QFileInfo::baseName(filename);
+QFileInfo fileInfo(fileName);
+QString test = fileInfo.baseName();
+//QDir(filename.absolutePath()).filePath(file_info.baseName());
+QString webpoutfile = fileInfo.baseName().toLatin1()+".webp";
+
+    const char *argv1[]={"appname","-d","800","-loop","0",fileName.toLocal8Bit().data(),"-o",webpoutfile.toLocal8Bit().data(),"null"};
 
 // const char *argv1[]={"appname","in1.bmp","in0.bmp","null"};
      int argc1 = sizeof(argv1) / sizeof(char*) - 1;
 
+     QImage *img_object = new QImage();
+     img_object->load(fileName);
+     QPixmap image = QPixmap::fromImage(*img_object);
+  //   QPixmap scaled_img = image.scaled(this->width(), this->height(), Qt::KeepAspectRatio);
+     QPixmap scaled_img = image.scaled(ui->graphicsView->width(), ui->graphicsView->height(), Qt::KeepAspectRatio);
+     QGraphicsScene *scene= new QGraphicsScene();
+    // scene->addItem(new QGraphicsSvgItem("./tmp.svg"));
+     scene->addPixmap(scaled_img);
+     scene->setSceneRect(scaled_img.rect());
+     ui->graphicsView->setScene(scene);
+     ui->graphicsView->show();
+
+
      img2webp(argc1,argv1);
+}
+
+void MainWindow::on_batchbutton_clicked()
+{
+        QString directory = QFileDialog::getExistingDirectory(0, ("Select Output Folder"), QDir::currentPath());
+
+    QDirIterator it(directory.toLatin1(), QStringList() << "*.jpg,*.png", QDir::Files, QDirIterator::Subdirectories);
+    QStringList files;
+    while (it.hasNext()){
+      //  QFileInfo fileInfo(f.fileName());
+        files << it.next().toLatin1();
+    }
+
+
 }
