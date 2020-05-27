@@ -62,8 +62,8 @@ void MainWindow::on_pushButton_clicked()
     //\n -d 80 in2.tiff -o out.webp\n");
 
     //ui->XZINGformat->currentText().toLocal8Bit().data(),fileName.toLocal8Bit().data()
-  QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
-
+  //QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
+    QString fileName = QFileDialog ::getOpenFileName(0,"Select File","","JPEG (*.jpg);;PNG (*.png)" );
 
     qDebug() << "testing";
 
@@ -82,7 +82,7 @@ qDebug() << webpoutfile.toLatin1();
         //".webp";
 //qDebug() << QFileInfo::baseName(fileInfo);
 
-    const char *argv1[]={"appname","-d","800","-loop","0",fileName.toLocal8Bit().data(),"-o",webpoutfile.toLocal8Bit().data(),"null"};
+    const char *argv1[]={"appname","-lossy",fileName.toLocal8Bit().data(),"-o",webpoutfile.toLocal8Bit().data(),"null"};
 
 // const char *argv1[]={"appname","in1.bmp","in0.bmp","null"};
      int argc1 = sizeof(argv1) / sizeof(char*) - 1;
@@ -107,12 +107,43 @@ void MainWindow::on_batchbutton_clicked()
 {
         QString directory = QFileDialog::getExistingDirectory(0, ("Select Output Folder"), QDir::currentPath());
 
-    QDirIterator it(directory.toLatin1(), QStringList() << "*.jpg,*.png", QDir::Files, QDirIterator::Subdirectories);
+    QDirIterator it(directory.toLatin1(), QStringList() << "*.jpg", QDir::Files, QDirIterator::Subdirectories);
     QStringList files;
+
     while (it.hasNext()){
       //  QFileInfo fileInfo(f.fileName());
         files << it.next().toLatin1();
+        qDebug() << '"' + it.next().toLatin1() + '"';
     }
 
+    QStringList fileslist;
+  //  fileslist.append("blank");
+
+    for (int i=0; i < files.size() ; i++)
+    {
+        fileslist.append(files.at(i).toLatin1() );
+        ui->listWidget->addItem(files.at(i).toLatin1());
+        qDebug() << files.at(i).toLatin1();
+    }
+        fileslist.append("-o");
+        // QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
+
+        fileslist.append("movie.webm");
+  //  fileslist.append("blank");
+
+
+    int size = fileslist.size();
+    const char *argv1[size];
+    int i=0;
+    foreach(QString s, fileslist)
+    {
+    argv1[i] = s.toLocal8Bit().constData();
+    i++;
+    }
+
+
+  //  const char *argv1[]=fileslist.;//{fileslist.toLatin1()};
+     int argc1 = sizeof(argv1) / sizeof(char*) - 1;
+     img2webp(argc1,argv1);
 
 }
