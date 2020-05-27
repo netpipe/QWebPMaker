@@ -73,8 +73,14 @@ void MainWindow::on_pushButton_clicked()
 //QString test = QFileInfo::baseName(filename);
 QFileInfo fileInfo(fileName);
 QString test = fileInfo.baseName();
+qDebug() << test.toLatin1();
 //QDir(filename.absolutePath()).filePath(file_info.baseName());
-QString webpoutfile = fileInfo.baseName().toLatin1()+".webp";
+QString webpoutfile = QDir(fileInfo.absolutePath()).filePath(fileInfo.baseName()).toLatin1()+".webp";
+
+qDebug() << webpoutfile.toLatin1();
+
+        //".webp";
+//qDebug() << QFileInfo::baseName(fileInfo);
 
     const char *argv1[]={"appname","-d","800","-loop","0",fileName.toLocal8Bit().data(),"-o",webpoutfile.toLocal8Bit().data(),"null"};
 
