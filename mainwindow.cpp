@@ -216,10 +216,11 @@ void MainWindow::on_pushButton_2_clicked()
      //int i = splitlist.size
      const char* splitlist2[splitlist.size()];
      for (int i=0; i < splitlist.size() ; i++){
-         splitlist[i] = splitlist.at(i).toUtf8();
+         splitlist[i] = splitlist.at(i).toLatin1();
          qDebug() << splitlist.at(i).toUtf8();
      }
 
+     //print new char* array - seems broken
      int length2 = sizeof(splitlist2) / sizeof(char*);
     // qDebug() << sizeof(&test);
         qDebug() << length;
