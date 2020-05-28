@@ -222,8 +222,9 @@ void MainWindow::on_pushButton_2_clicked()
 
      //const char *argv1[]={test2.toUtf8()};
          int argc2 = sizeof(splitlist2) / sizeof(char*) - 1;
+         qDebug() << argc2;
          int argc1 = sizeof(argv2) / sizeof(char*) - 1;
-
+           qDebug() << argc1;
          //const_cast<const char**>(argv1)
          img2webp(argc2,splitlist2);
         // img2webp(argc1,argv2);
