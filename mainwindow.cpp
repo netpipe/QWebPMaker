@@ -220,6 +220,17 @@ void MainWindow::on_pushButton_2_clicked()
          qDebug() << splitlist.at(i).toUtf8();
      }
 
+     int length2 = sizeof(splitlist2) / sizeof(char*);
+    // qDebug() << sizeof(&test);
+        qDebug() << length;
+
+     for (int i=0; i < length2;i++){
+       //  test2.append(splitlist[i]);
+        // if (i < length-1){  test2.append(",");}
+
+              qDebug() << splitlist2[i];
+     }
+
      //const char *argv1[]={test2.toUtf8()};
          int argc2 = sizeof(splitlist2) / sizeof(char*) - 1;
          qDebug() << argc2;
