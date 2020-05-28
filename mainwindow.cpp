@@ -194,7 +194,7 @@ void MainWindow::on_pushButton_2_clicked()
 {
 
     QString test2;
-        const char *argv2[]={"appname","-lossy","in0.jpg","-o","webp.webp"};
+        const char *argv2[]={"appname","-lossy","in0.jpg","-o","webp.webp","null"};
 
         int length = sizeof(argv2) / sizeof(char*);
        // qDebug() << sizeof(&test);
@@ -202,10 +202,11 @@ void MainWindow::on_pushButton_2_clicked()
 
         for (int i=0; i < length;i++){
             test2.append(argv2[i]);
-            test2.append(",");
+            if (i < length-1){  test2.append(",");}
+
                  qDebug() << argv2[i];
         }
-       test2.append("null");
+      // test2.append("null");
      qDebug() << test2.toLatin1();
 
        //const char *argv1[]={fileslist.join(",").toUtf8()};
@@ -214,15 +215,16 @@ void MainWindow::on_pushButton_2_clicked()
      QStringList splitlist = test2.split(",");
      //int i = splitlist.size
      const char* splitlist2[splitlist.size()];
-     for (int i=0; i < splitlist.size()-1 ; i++){
+     for (int i=0; i < splitlist.size() ; i++){
          splitlist[i] = splitlist.at(i).toUtf8();
          qDebug() << splitlist.at(i).toUtf8();
      }
 
      //const char *argv1[]={test2.toUtf8()};
-
-         int argc1 = sizeof(splitlist2) / sizeof(char*) - 1;
+         int argc2 = sizeof(splitlist2) / sizeof(char*) - 1;
+         int argc1 = sizeof(argv2) / sizeof(char*) - 1;
 
          //const_cast<const char**>(argv1)
-         img2webp(argc1,splitlist2);
+         img2webp(argc2,splitlist2);
+        // img2webp(argc1,argv2);
 }
