@@ -9,6 +9,10 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QFileInfo>
+
+#include <stdio.h>
+#include <string.h>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -58,10 +62,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-//    img2webp -loop 2 in0.png -lossy in1.jpg
-    //\n -d 80 in2.tiff -o out.webp\n");
 
-    //ui->XZINGformat->currentText().toLocal8Bit().data(),fileName.toLocal8Bit().data()
   //QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
     QString fileName = QFileDialog ::getOpenFileName(0,"Select File","","JPEG (*.jpg);;PNG (*.png)" );
 
@@ -69,23 +70,19 @@ void MainWindow::on_pushButton_clicked()
 
    // const char *argv1[]={"appname","-d","800","-loop","2","in0.bmp","-lossy","in1.bmp","-o","test.webp","null"};
 
-  //  QStringList file.
-//QString test = QFileInfo::baseName(filename);
 QFileInfo fileInfo(fileName);
-QString test = fileInfo.baseName();
-qDebug() << test.toLatin1();
-//QDir(filename.absolutePath()).filePath(file_info.baseName());
 QString webpoutfile = QDir(fileInfo.absolutePath()).filePath(fileInfo.baseName()).toLatin1()+".webp";
-
 qDebug() << webpoutfile.toLatin1();
 
-        //".webp";
-//qDebug() << QFileInfo::baseName(fileInfo);
 
+  //  char *argv1[]={"appname","-lossy",fileName.toLocal8Bit().data(),"-o",webpoutfile.toLocal8Bit().data(),"null"};
     const char *argv1[]={"appname","-lossy",fileName.toLocal8Bit().data(),"-o",webpoutfile.toLocal8Bit().data(),"null"};
-
 // const char *argv1[]={"appname","in1.bmp","in0.bmp","null"};
+
      int argc1 = sizeof(argv1) / sizeof(char*) - 1;
+
+     //const char** p = const_cast<const char**>(argv1);
+     //int argc1 = sizeof(argv1) / sizeof(char*) - 1;
 
      QImage *img_object = new QImage();
      img_object->load(fileName);
@@ -117,7 +114,8 @@ void MainWindow::on_batchbutton_clicked()
     }
 
     QStringList fileslist;
-  //  fileslist.append("blank");
+    //QString fileslist;
+    fileslist.append("blank");
 
     for (int i=0; i < files.size() ; i++)
     {
@@ -128,21 +126,39 @@ void MainWindow::on_batchbutton_clicked()
         fileslist.append("-o");
         // QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
 
-        fileslist.append("movie.webm");
-  //  fileslist.append("blank");
+    fileslist.append("movie.webm");
+    fileslist.append("blank");
 
 //https://forum.qt.io/topic/28723/solved-constructing-c-string-array-const-char-from-qstringlist
-    int size = fileslist.size();
-    const char *argv1[size];
-    int i=0;
-    foreach(QString s, fileslist)
-    {
-    argv1[i] = s.toLocal8Bit().constData();
-    i++;
-    }
+ //   int size = fileslist.size();
+ //   char *argv1[size];
+  //  int i=0;
+  //  foreach(QString s, fileslist)
+ //   {
+   // c[i] = s.toLocal8Bit().constData();
+ //   argv1[i] = new char[s.toLocal8Bit().size()];
+ //   strcpy(argv1[i],s.toLocal8Bit().constData());
+   // i++;
+   // }
 
 
-  //  const char *argv1[]=fileslist.;//{fileslist.toLatin1()};
+ //couple of examples for converting char*'s
+      //  const char *str;
+       //  QString path;
+        //  QByteArray ba;
+        // ba = path.toLatin1();
+        //                str = fileslist.join(",").toUtf8();
+          //              printf("the string path will be:%s\n", str);
+
+
+    //    char text [fileslist.length())];
+    //    for(int i = 0; i < fileslist.length(); i++)
+    //        text[i] = static_cast<char>(myString.at(i));
+
+
+    const char *argv1[]={fileslist.join(",").toLocal8Bit().data()};
+
+   // const char** p = const_cast<const char**>(argv1);
      int argc1 = sizeof(argv1) / sizeof(char*) - 1;
      img2webp(argc1,argv1);
 
