@@ -20,6 +20,8 @@ private slots:
 
     void on_batchbutton_clicked();
 
+    void on_pushButton_2_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

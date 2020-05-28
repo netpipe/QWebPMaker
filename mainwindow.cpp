@@ -102,7 +102,7 @@ qDebug() << webpoutfile.toLatin1();
 
 void MainWindow::on_batchbutton_clicked()
 {
-        QString directory = QFileDialog::getExistingDirectory(0, ("Select Output Folder"), QDir::currentPath());
+    QString directory = QFileDialog::getExistingDirectory(0, ("Select Output Folder"), QDir::currentPath());
 
     QDirIterator it(directory.toLatin1(), QStringList() << "*.jpg", QDir::Files, QDirIterator::Subdirectories);
     QStringList files;
@@ -150,16 +150,77 @@ void MainWindow::on_batchbutton_clicked()
         //                str = fileslist.join(",").toUtf8();
           //              printf("the string path will be:%s\n", str);
 
+    //QString str("abcd");
+    //QByteArray br = str.toUtf8();
 
-    //    char text [fileslist.length())];
-    //    for(int i = 0; i < fileslist.length(); i++)
-    //        text[i] = static_cast<char>(myString.at(i));
+ // qDebug() << QByteArray(test, sizeof(test));
+// qDebug() << QByteArray::fromRawData(test, sizeof(test))
 
 
-    const char *argv1[]={fileslist.join(",").toLocal8Bit().data()};
+QString test2;
+    const char *argv2[]={"appname","-lossy","in0.jpg","-o","webp.webp","\0"};
 
+    int length = sizeof(argv2) / sizeof(char*) - 1;
+   // qDebug() << sizeof(&test);
+       qDebug() << length;
+
+    for (int i=0; i < length;i++){
+        test2.append(argv2[i]);
+        test2.append(",");
+    }
+    test2.append("blank");
+ qDebug() << test2.toLatin1();
+
+   //const char *argv1[]={fileslist.join(",").toUtf8()};
    // const char** p = const_cast<const char**>(argv1);
-     int argc1 = sizeof(argv1) / sizeof(char*) - 1;
-     img2webp(argc1,argv1);
 
+ QStringList splitlist = test2.split(",");
+ //int i = splitlist.size
+ const char* splitlist2[splitlist.size()];
+ for (int i=0; i < splitlist.size() ; i++){
+     splitlist[i] = splitlist.at(i).toUtf8();
+ }
+
+ //const char *argv1[]={test2.toUtf8()};
+
+     int argc1 = sizeof(splitlist2) / sizeof(char*) - 1;
+
+     //const_cast<const char**>(argv1)
+     img2webp(argc1,splitlist2);
+
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+
+    QString test2;
+        const char *argv2[]={"appname","-lossy","in0.jpg","-o","webp.webp","\0"};
+
+        int length = sizeof(argv2) / sizeof(char*) - 1;
+       // qDebug() << sizeof(&test);
+           qDebug() << length;
+
+        for (int i=0; i < length;i++){
+            test2.append(argv2[i]);
+            test2.append(",");
+        }
+        test2.append("blank");
+     qDebug() << test2.toLatin1();
+
+       //const char *argv1[]={fileslist.join(",").toUtf8()};
+       // const char** p = const_cast<const char**>(argv1);
+
+     QStringList splitlist = test2.split(",");
+     //int i = splitlist.size
+     const char* splitlist2[splitlist.size()];
+     for (int i=0; i < splitlist.size() ; i++){
+         splitlist[i] = splitlist.at(i).toUtf8();
+     }
+
+     //const char *argv1[]={test2.toUtf8()};
+
+         int argc1 = sizeof(splitlist2) / sizeof(char*) - 1;
+
+         //const_cast<const char**>(argv1)
+         img2webp(argc1,splitlist2);
 }
