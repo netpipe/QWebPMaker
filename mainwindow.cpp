@@ -151,9 +151,9 @@ int e=0;
         qDebug() << files.at(i).toLatin1();
     }
         fileslist.append("-o,");
-        // QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
+    QString  fileName2= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
 
-    fileslist.append("movie.webp,");
+    fileslist.append(fileName2.toLatin1()+",");
  //   fileslist.append("blank");
 
 qDebug() << fileslist.toLatin1();
