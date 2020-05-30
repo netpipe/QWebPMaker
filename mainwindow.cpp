@@ -151,7 +151,7 @@ void MainWindow::on_batchbutton_clicked()
         // QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
 
     fileslist.append("movie.webm,");
-    fileslist.append("blank");
+ //   fileslist.append("blank");
 
 //https://forum.qt.io/topic/28723/solved-constructing-c-string-array-const-char-from-qstringlist
  //   int size = fileslist.size();
