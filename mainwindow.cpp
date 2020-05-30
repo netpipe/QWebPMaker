@@ -141,7 +141,7 @@ int e=0;
     QString fileslist;
     fileslist.append("blank,");
     fileslist.append("-loop,");
-        fileslist.append("800,");
+        fileslist.append("80,");
 
         qDebug() << files.size();
     for (int i=0; i < files.size() ; i++)
