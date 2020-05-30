@@ -156,91 +156,12 @@ int e=0;
     fileslist.append("movie.webp,");
  //   fileslist.append("blank");
 
-//https://forum.qt.io/topic/28723/solved-constructing-c-string-array-const-char-from-qstringlist
- //   int size = fileslist.size();
- //   char *argv1[size];
-  //  int i=0;
-  //  foreach(QString s, fileslist)
- //   {
-   // c[i] = s.toLocal8Bit().constData();
- //   argv1[i] = new char[s.toLocal8Bit().size()];
- //   strcpy(argv1[i],s.toLocal8Bit().constData());
-   // i++;
-   // }
-
-
- //couple of examples for converting char*'s
-      //  const char *str;
-       //  QString path;
-        //  QByteArray ba;
-        // ba = path.toLatin1();
-        //                str = fileslist.join(",").toUtf8();
-          //              printf("the string path will be:%s\n", str);
-
-    //QString str("abcd");
-    //QByteArray br = str.toUtf8();
-
- // qDebug() << QByteArray(test, sizeof(test));
-// qDebug() << QByteArray::fromRawData(test, sizeof(test))
-
-    //    const char *argv2[]={"appname","-lossy","in0.jpg","-o","webp.webp","\0"};
-
-    qDebug() << fileslist.toLatin1();
-QByteArray string = fileslist.toLatin1();
-//int sized =fileslist.size();
-//char csv[200] = {0};
+qDebug() << fileslist.toLatin1();
 
 QByteArray array = fileslist.toLocal8Bit();
 char* buffer = array.data();
 
 
-//std::copy(fileslist.toStdString().begin(),fileslist.toStdString().end(),csv);
-
 qDebug() << "test " << buffer;
 img2webp_wrapper(buffer);
-
-//QString test2;
-//    const char *argv2[]={"appname","-lossy","in0.jpg","-o","webp.webp","\0"};
-
-//    int length = sizeof(argv2) / sizeof(char*) - 1;
-//   // qDebug() << sizeof(&test);
-//       qDebug() << length;
-
-//    for (int i=0; i < length;i++){
-//        test2.append(argv2[i]);
-//        test2.append(",");
-//    }
-//    test2.append("blank");
-// qDebug() << test2.toLatin1();
-
-//   //const char *argv1[]={fileslist.join(",").toUtf8()};
-//   // const char** p = const_cast<const char**>(argv1);
-
-// QStringList splitlist = test2.split(",");
-// //int i = splitlist.size
-// const char* splitlist2[splitlist.size()];
-// for (int i=0; i < splitlist.size() ; i++){
-//     splitlist[i] = splitlist.at(i).toUtf8();
-// }
-
-// //const char *argv1[]={test2.toUtf8()};
-
-//     int argc1 = sizeof(splitlist2) / sizeof(char*) - 1;
-
-//     //const_cast<const char**>(argv1)
-
-
-//     img2webp(argc1,splitlist2);
-
-}
-
-
-void MainWindow::on_pushButton_2_clicked()
-{
-
-}
-
-void MainWindow::on_pushButton_3_clicked()
-{
-
 }
