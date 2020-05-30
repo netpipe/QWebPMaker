@@ -153,7 +153,7 @@ int e=0;
         fileslist.append("-o,");
         // QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
 
-    fileslist.append("movie.webm,");
+    fileslist.append("movie.webp,");
  //   fileslist.append("blank");
 
 //https://forum.qt.io/topic/28723/solved-constructing-c-string-array-const-char-from-qstringlist
