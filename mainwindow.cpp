@@ -127,13 +127,16 @@ void MainWindow::on_batchbutton_clicked()
 
     QDirIterator it(directory.toLatin1(), QStringList() << "*.jpg", QDir::Files, QDirIterator::Subdirectories);
     QStringList files;
-
+int e=0;
     while (it.hasNext()){
       //  QFileInfo fileInfo(f.fileName());
-        files << it.next().toLatin1();
-        qDebug() <<  it.next().toLatin1() ;
-    }
 
+        files << it.next().toLatin1();
+     //   qDebug() <<  it.next().toLatin1() ;
+        qDebug() << e;
+        e++;
+    }
+//qDebug() << it.fileName();
    // QStringList fileslist;
     QString fileslist;
     fileslist.append("blank,");
