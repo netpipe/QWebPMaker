@@ -62,6 +62,16 @@ MainWindow::~MainWindow()
 //  printf("tokenized from this file. The file name must not start with "
 //         "the character '-'.\n");
 //}
+int img2webp_wrapper(char* csv)
+{
+std::vector<const char*> parts;
+const char* part = strtok(csv, ",");
+while (part) {
+    parts.push_back(part);
+    part = strtok(nullptr, ",");
+}
+return img2webp(parts.size(), parts.data());
+}
 
 void MainWindow::on_pushButton_clicked()
 {
@@ -69,23 +79,36 @@ void MainWindow::on_pushButton_clicked()
   //QString  fileName= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
     QString fileName = QFileDialog ::getOpenFileName(0,"Select File","","JPEG (*.jpg);;PNG (*.png)" );
 
-    qDebug() << "testing";
-
-   // const char *argv1[]={"appname","-d","800","-loop","2","in0.bmp","-lossy","in1.bmp","-o","test.webp","null"};
-
-QFileInfo fileInfo(fileName);
-QString webpoutfile = QDir(fileInfo.absolutePath()).filePath(fileInfo.baseName()).toLatin1()+".webp";
-qDebug() << webpoutfile.toLatin1();
+    QFileInfo fileInfo(fileName);
+    //QString webpoutfile = QDir(fileInfo.absolutePath()).filePath(fileInfo.baseName()).toLatin1()+".webp";
+    //qDebug() << webpoutfile.toLatin1();
 
 
-  //  char *argv1[]={"appname","-lossy",fileName.toLocal8Bit().data(),"-o",webpoutfile.toLocal8Bit().data(),"null"};
-    const char *argv1[]={"appname","-lossy",fileName.toLocal8Bit().data(),"-o",webpoutfile.toLocal8Bit().data(),"null"};
-// const char *argv1[]={"appname","in1.bmp","in0.bmp","null"};
+    QString fileslist;
 
-     int argc1 = sizeof(argv1) / sizeof(char*) - 1;
+    fileslist.append("blank,");
+    if (ui->lossycheck->isChecked()){qDebug() << "lossy- smaller files";
+        fileslist.append("-lossy,");
+    }else {
 
-     //const char** p = const_cast<const char**>(argv1);
-     //int argc1 = sizeof(argv1) / sizeof(char*) - 1;
+              fileslist.append("-lossless,");
+    }
+    fileslist.append("-q,");
+    fileslist.append(ui->singlequality->text().toLatin1()+",");
+
+    fileslist.append(fileName.toLatin1()+",");
+
+    fileslist.append("-o,");
+
+    QString  fileName2= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath()+"/.webp", "webp (*.webp)" );
+
+    fileslist.append(fileName2.toLatin1()+",");
+    //   fileslist.append("blank");
+
+    QByteArray array = fileslist.toLocal8Bit();
+    char* buffer = array.data();
+
+    img2webp_wrapper(buffer);
 
      QImage *img_object = new QImage();
      img_object->load(fileName);
@@ -99,26 +122,6 @@ qDebug() << webpoutfile.toLatin1();
      ui->graphicsView->setScene(scene);
      ui->graphicsView->show();
 
-     img2webp(argc1,argv1);
-}
-
-int img2webp2(int argc, const char* argv[])
-{
-    for (int i = 0; i < argc; ++i) {
-        std::cout << '[' << i << "]: " << argv[i] << std::endl;
-    }
-    return 0;
-}
-
-int img2webp_wrapper(char* csv)
-{
-std::vector<const char*> parts;
-const char* part = strtok(csv, ",");
-while (part) {
-    parts.push_back(part);
-    part = strtok(nullptr, ",");
-}
-return img2webp(parts.size(), parts.data());
 }
 
 void MainWindow::on_batchbutton_clicked()
@@ -144,13 +147,15 @@ int e=0;
     fileslist.append("blank,");
         if (ui->lossycheck->isChecked()){qDebug() << "lossy- smaller files";
     fileslist.append("-lossy,");
+    }else {
+        fileslist.append("-lossless,");
     }
-            fileslist.append("-q,");
+    fileslist.append("-q,");
     fileslist.append(ui->batchQuality->text().toLatin1()+",");
     fileslist.append("-loop,");
     fileslist.append(ui->loopcount->text().toLatin1() + ",");
-      fileslist.append("-d,");
-        fileslist.append(ui->loopdelay->text().toLatin1() + ",");
+    fileslist.append("-d,");
+    fileslist.append(ui->loopdelay->text().toLatin1() + ",");
 
 
         qDebug() << files.size();
