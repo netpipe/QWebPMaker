@@ -87,7 +87,7 @@ void MainWindow::on_pushButton_clicked()
     QString fileslist;
 
     fileslist.append("blank,");
-    if (ui->lossycheck->isChecked()){qDebug() << "lossy- smaller files";
+    if (ui->singleLossy->isChecked()){qDebug() << "lossy- smaller files";
         fileslist.append("-lossy,");
     }else {
 
