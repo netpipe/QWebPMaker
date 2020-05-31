@@ -123,6 +123,7 @@ return img2webp(parts.size(), parts.data());
 
 void MainWindow::on_batchbutton_clicked()
 {
+     ui->listWidget->clear();
     QString directory = QFileDialog::getExistingDirectory(0, ("Select Output Folder"), QDir::currentPath());
 
     QDirIterator it(directory.toLatin1(), QStringList() << "*.jpg", QDir::Files, QDirIterator::Subdirectories);
@@ -139,9 +140,13 @@ int e=0;
 //qDebug() << it.fileName();
    // QStringList fileslist;
     QString fileslist;
+
     fileslist.append("blank,");
+        if (ui->lossycheck->isChecked()){qDebug() << "lossy- smaller files";
+    fileslist.append("-lossy,");
+    }
     fileslist.append("-loop,");
-        fileslist.append("80,");
+        fileslist.append(ui->loopdelay->text().toLatin1() + ",");
 
         qDebug() << files.size();
     for (int i=0; i < files.size() ; i++)
@@ -151,7 +156,7 @@ int e=0;
         qDebug() << files.at(i).toLatin1();
     }
         fileslist.append("-o,");
-    QString  fileName2= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath(), "JPEG (*.jpg);;PNG (*.png)" );
+    QString  fileName2= QFileDialog::getSaveFileName(this, "Save image", QCoreApplication::applicationDirPath()+"/.webp", "webp (*.webp)" );
 
     fileslist.append(fileName2.toLatin1()+",");
  //   fileslist.append("blank");
