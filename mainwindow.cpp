@@ -145,8 +145,13 @@ int e=0;
         if (ui->lossycheck->isChecked()){qDebug() << "lossy- smaller files";
     fileslist.append("-lossy,");
     }
+            fileslist.append("-q,");
+    fileslist.append(ui->batchQuality->text().toLatin1()+",");
     fileslist.append("-loop,");
+    fileslist.append(ui->loopcount->text().toLatin1() + ",");
+      fileslist.append("-d,");
         fileslist.append(ui->loopdelay->text().toLatin1() + ",");
+
 
         qDebug() << files.size();
     for (int i=0; i < files.size() ; i++)
