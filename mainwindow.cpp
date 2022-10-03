@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "img2webp.h"
-//#include "dwebp.h"
+#include "dwebp.h"
 #include <QDebug>
 #include <QFileDialog>
 #include <QDirIterator>
@@ -72,6 +72,17 @@ while (part) {
     part = strtok(nullptr, ",");
 }
 return img2webp(parts.size(), parts.data());
+}
+
+int decodeWEBP_wrapper(char* csv)
+{
+std::vector<const char*> parts;
+const char* part = strtok(csv, ",");
+while (part) {
+    parts.push_back(part);
+    part = strtok(nullptr, ",");
+}
+return decodeWEBP(parts.size(), parts.data());
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -181,3 +192,4 @@ char* buffer = array.data();
 qDebug() << "test " << buffer;
 img2webp_wrapper(buffer);
 }
+
