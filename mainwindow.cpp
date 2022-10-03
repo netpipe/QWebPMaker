@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "img2webp.h"
+//#include "dwebp.h"
 #include <QDebug>
 #include <QFileDialog>
 #include <QDirIterator>
